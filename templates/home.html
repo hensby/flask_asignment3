@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<link href="home.css" rel="stylesheet" type="text/css" />
+<body style="background-image:url(../static/moroccan-flower.png);">
+</body>
+<head>
+    <meta charset="UTF-8">
+    <title>assignment3</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h1>Assignment3</h1>
+    <h1>1001778272</h1>
+    <h2>Hengchao Wang</h2>
+    <div id="id_float">You should click the "Random search"</div>
+    <div id="id_float">and "Restricted Search" bottom first</div>
+    <div id="id_float">so that The system will upload the data to Redis</div>
+</div>
+
+
+<div class="container">
+    <form action="/home" method="POST">
+        <input name="point" value="one" style="display:none;">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <input type="number" class="form-control" placeholder="input number you want to random search"
+                       name="sql_number">
+                <button class="btn btn-default" type="submit">Random Search</button>
+            </span>
+        </div>
+    </form>
+    {% if mags1 %}
+        <h4>random {{ len }} round queries</h4>
+        <h5>id: {{ mags1 }}</h5>
+        <h3>Time for {{ len }} time random search is {{ time }}</h3>
+    {% endif %}
+</div>
+
+<div class="container">
+    <form action="/home" method="POST">
+        <input name="point" value="oneredis" style="display:none;">
+        <div class="input-group">
+            <span class="input-group-btn">
+                {% if mags1 %}
+                    <button class="btn btn-default" type="submit">Random Search with Redis</button>
+                {% else %}
+                    <h5>You should click "Random Search" button first</h5>
+                    <button class="btn btn-default" type="submit" disabled>Random Search with Redis</button>
+                {% endif %}
+            </span>
+        </div>
+    </form>
+    {% if mags2 %}
+        <h4>random {{ len }} round queries using Redis</h4>
+        <h5>id: {{ mags2 }}</h5>
+        <h3>Time for {{ len }} time random search using Redis is {{ time }}</h3>
+    {% endif %}
+</div>
+
+
+<div class="container">
+    <form action="/home" method="POST">
+        <input name="point" value="more" style="display:none;"/>
+        <div class="input-group">
+            <span class="input-group-btn">
+                <input type="number" class="form-control" style="width:50%;" placeholder="input min mag"
+                       name="minMag">
+                <input type="number" class="form-control" style="width:50%;" placeholder="input max mag"
+                       name="maxMag">
+                <button class="btn btn-default" type="submit">Restricted Search</button>
+            </span>
+        </div>
+    </form>
+    {% if mags3 %}
+        <h4>Restricted search "mag" within [{{ mags3[0] }}, {{ mags3[1] }}]</h4>
+        <h3>Time for Restricted search is {{ time }}</h3>
+    {% endif %}
+</div>
+
+<div class="container">
+    <form action="/home" method="POST">
+        <input name="point" value="tworedis" style="display:none;"/>
+        <div class="input-group">
+            <span class="input-group-btn">
+                {% if not mags3 %}
+                    <h5>You should click "Restricted Search" button first</h5>
+                    <button class="btn btn-default" type="submit" disabled>Restricted Search with Redis</button>
+                {% else %}
+                    <button class="btn btn-default" type="submit" >Restricted Search with Redis</button>
+                {% endif %}
+            </span>
+        </div>
+    </form>
+    {% if mags4 %}
+        <h4>Restricted search "mag" within [{{ mags4[0] }}, {{ mags4[1] }}] using Redis</h4>
+        <h3>Time for Restricted search using Redis is {{ time }}</h3>
+    {% endif %}
+</div>
+
+
+<div class="container">
+    {% if k==0 %}  <h5>no record</h5>  {% endif %}
+    {% if k>0 %}
+        <h5>totally {{ k }} will show the first 100 rows</h5>
+        <h5>Time of update the date is {{ time }}</h5>
+        <table class="table" border="1">
+            <tr>
+                <th>time</th>
+                <th>latitude</th>
+                <th>longitude</th>
+                <th>depth</th>
+                <th>mag</th>
+                <th>magType</th>
+                <th>nst</th>
+                <th>gap</th>
+                <th>dmin</th>
+                <th>rms</th>
+                <th>net</th>
+                <th>id</th>
+                <th>updated</th>
+                <th>place</th>
+                <th>type</th>
+                <th>horizontalError</th>
+                <th>depthError</th>
+                <th>magError</th>
+                <th>magNst</th>
+                <th>status</th>
+                <th>locationSource</th>
+                <th>magSource</th>
+            </tr>
+            {% for rel in result[:100] %}
+                <tr>
+                    <td>{{ rel[0] }}</td>
+                    <td>{{ rel[1] }}</td>
+                    <td>{{ rel[2] }}</td>
+                    <td>{{ rel[3] }}</td>
+                    <td>{{ rel[4] }}</td>
+                    <td>{{ rel[5] }}</td>
+                    <td>{{ rel[6] }}</td>
+                    <td>{{ rel[7] }}</td>
+                    <td>{{ rel[8] }}</td>
+                    <td>{{ rel[9] }}</td>
+                    <td>{{ rel[10] }}</td>
+                    <td>{{ rel[11] }}</td>
+                    <td>{{ rel[12] }}</td>
+                    <td>{{ rel[13] }}</td>
+                    <td>{{ rel[14] }}</td>
+                    <td>{{ rel[15] }}</td>
+                    <td>{{ rel[16] }}</td>
+                    <td>{{ rel[17] }}</td>
+                    <td>{{ rel[18] }}</td>
+                    <td>{{ rel[19] }}</td>
+                    <td>{{ rel[20] }}</td>
+                    <td>{{ rel[21] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</div>
+
+</body>
+</html>
